@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Proyect" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <!-- Aca se mete lo que digan los otros html, con el yield se hace auto para cada página -->
+    
+    <!-- Aquí ponemo el partial que creamos -->
+    <%= render 'home/header' %>
+
+    <!-- Así se hacen los links, lo de class es de boostrap pero creo q no lo tengo -->
+    <!-- Pa saber lo del home_about_path -> rails routes en terminal y vemos prefix -->
+    <%= link_to 'FriendsApp', root_path, class:"navbar-brand" %>
+    <%= link_to 'About us', home_about_path, class:"navbar-link" %>
+    <%= link_to 'Friends', friends_path, class:"navbar-link"%>
+    
+
+    <% if user_signed_in? %>
+      <%= link_to 'Sign out', destroy_user_session_path, data: { turbo_method: :delete } %>
+      <%= link_to 'Edit profile', edit_user_registration_path %>
+      <%= link_to 'Add Friend', new_friend_path, class:"navbar-link"%>
+    <% else %>
+      <%= link_to 'Sign Up', new_user_registration_path %>
+      <%= link_to 'Sign In', new_user_session_path %>
+    <% end %>
+
+    <%= yield %>
+
+    <p>Esto es una plantilla, así que saldrá en todas las páginas</p>
+  </body>
+</html>

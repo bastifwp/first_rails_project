@@ -1,0 +1,51 @@
+<p style="color: green"><%= notice %></p>
+
+<% if user_signed_in? %>
+  <% content_for :title, "Friends" %>
+
+  <h1>Friends</h1>
+
+
+
+  <div id="friends">
+
+    <% @friends.each do |friend| %>
+
+      <% if friend.user_id == current_user %>
+        <%= render friend %>
+        <p>
+          <%= link_to "Show this friend", friend %>
+        </p>
+
+      <% end %>
+
+    <% end %>
+  </div>
+
+
+  
+  <%= link_to "New friend", new_friend_path %>
+<% else %>
+
+  <h1>Hello World</h1>
+  <p>Página de rails</p>
+
+<% end %>
+
+<!-- Podríamos tapar los usuarios que no corresponen desde el frontend pero no es lo mejor:
+Esto es porque igual pueden acceder a través de la ruta a un amigo que no corresponde y editarlo iwal
+Asi que tambien tenemos que hacer el tejemaneje en los controllers 
+<div id="friends">
+  <% @friends.each do |friend| %>
+
+    <% if friend.user == current_user %>
+
+      <%= render friend %>
+      <p>
+        <%= link_to "Show this friend", friend %>
+      </p>
+
+    <% end %>
+
+  <% end %>
+</div> -->
